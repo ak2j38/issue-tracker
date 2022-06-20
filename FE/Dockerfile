@@ -9,6 +9,8 @@ RUN npm ci --production
 
 COPY . .
 
+RUN npm install --save-dev webpack-cli
+
 RUN npm run build:prod
 
 FROM nginx:1.12-alpine as prod
