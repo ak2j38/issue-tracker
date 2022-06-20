@@ -13,7 +13,9 @@ RUN npm run build:prod
 
 FROM nginx:1.12-alpine as prod
 
-COPY --from=build /app/build 
+RUN mkdir /app/build
+
+COPY --from=build /app/build /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
 
