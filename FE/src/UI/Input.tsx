@@ -2,7 +2,15 @@ import React from 'react';
 
 type InputPropType = {
   label: string;
-  info: Record<string, string | (() => void)>;
+  info: {
+    id: string;
+    name: string;
+    type: string;
+    placeholder: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    maxLength: number;
+  };
 };
 
 export const InputWithRef = React.forwardRef<HTMLInputElement, InputPropType>(
