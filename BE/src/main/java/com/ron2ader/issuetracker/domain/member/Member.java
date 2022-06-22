@@ -1,9 +1,8 @@
 package com.ron2ader.issuetracker.domain.member;
 
 import com.ron2ader.issuetracker.domain.common.BaseEntity;
+import java.util.Objects;
 import lombok.*;
-import org.springframework.data.domain.Page;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -19,22 +18,42 @@ public class Member extends BaseEntity {
     private Long id;
 
     private String memberId;
-
     private String avatarUrl;
 
     public static Member of(String memberId, String avatarUrl) {
         return new Member(null, memberId, avatarUrl);
     }
 
-    public void update(Member member) {
-        this.memberId = member.getMemberId();
-        this.avatarUrl = member.getAvatarUrl();
+    public Member updateNonNull(Member member) {
+        if (isUpdatable(member)) {
+            this.memberId = member.getMemberId();
+            this.avatarUrl = member.getAvatarUrl();
+        }
+
+        return this;
     }
 
-    public boolean isUpdatable(Member member) {
+    private boolean isUpdatable(Member member) {
         if (member == null) {
             return false;
         }
         return !this.memberId.equals(member.getMemberId()) || !this.avatarUrl.equals(member.getAvatarUrl());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

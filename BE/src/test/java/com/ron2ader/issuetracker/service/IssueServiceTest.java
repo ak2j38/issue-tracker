@@ -65,7 +65,7 @@ class IssueServiceTest {
             issueService.registerIssue(issues.get(i).getTitle(), issues.get(i).getTitle(), "ron2");
         }
 
-        Page<IssueSimpleResponse> allByOpenStatus = issueService.findAllByOpenStatus(PageRequest.of(0, 5), true);
+        Page<IssueSimpleResponse> allByOpenStatus = issueService.findByCondition(PageRequest.of(0, 5), true);
 
         assertThat(allByOpenStatus.getTotalElements()).isEqualTo(10);
         assertThat(allByOpenStatus.getSize()).isEqualTo(5);

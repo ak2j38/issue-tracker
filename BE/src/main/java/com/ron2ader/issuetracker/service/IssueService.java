@@ -1,6 +1,6 @@
 package com.ron2ader.issuetracker.service;
 
-import com.ron2ader.issuetracker.controller.issuedto.IssueCreateRequest;
+import com.ron2ader.issuetracker.controller.issuedto.IssueCondition;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetail;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetailResponse;
 import com.ron2ader.issuetracker.controller.issuedto.IssueSimpleResponse;
@@ -31,8 +31,7 @@ public class IssueService {
         // s3에 파일을 보내고 url을 받는다
 
         Member member = memberRepository.findByMemberId(issuerId).orElseThrow(NoSuchElementException::new);
-        Issue savedIssue = issueRepository.save(Issue.of(member, title,
-                contents, null));
+        Issue savedIssue = issueRepository.save(Issue.of(member, title, contents, null, null, null, null));
 
         return new IssueDetailResponse(MemberDto.from(member), IssueDetail.from(savedIssue));
     }
@@ -47,9 +46,8 @@ public class IssueService {
     }
 
     @Transactional(readOnly = true)
-    public Page<IssueSimpleResponse> findAllByOpenStatus(Pageable pageable, Boolean openStatus) {
-        Page<Issue> issues = issueRepository.findAllByOpenStatus(pageable, openStatus);
+    public Page<IssueSimpleResponse> findByCondition(Pageable pageable, Boolean openStatus) {
+        Page<Issue> issues = issueRepository.findByCondition(pageable, IssueCondition.of(openStatus, null, null, null));
         return issues.map(IssueSimpleResponse::from);
     }
-
 }
