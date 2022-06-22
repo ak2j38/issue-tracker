@@ -7,14 +7,8 @@ import { AddIssue } from './pages/addIssue';
 import IssueList from '@pages/issueList/IssueList';
 import AuthPage from '@pages/auth/AuthPage';
 import store from './store/store';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true,
-    },
-  },
-});
+import Callback from '@pages/callback/Callback';
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
@@ -26,6 +20,7 @@ const App = () => {
               <Route index element={<AuthPage />} />
               <Route path="issues" element={<IssueList />} />
               <Route path="addIssue" element={<AddIssue />} />
+              <Route path="callback" element={<Callback />} />
             </Route>
           </Routes>
         </Router>

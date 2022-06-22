@@ -1,12 +1,9 @@
-import React, { SetStateAction, Suspense, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import qs, { ParsedQs } from 'qs';
+import React, { useEffect, useRef } from 'react';
+import { ParsedQs } from 'qs';
 import styles from './AuthForm.module.scss';
-import { Input } from '@UI/Input';
-import { authActions } from '../../store/authStore';
+import { Input, InputWithRef } from '../../UI/Input';
 import GithubLoginBtn from './GithubLoginBtn';
-import LoginCallBack from './LoginCallback';
+import useInput from '../../hooks/useInput';
 
 export type parsedQueryType =
   | string
@@ -17,62 +14,84 @@ export type parsedQueryType =
   | null;
 
 const AuthForm = () => {
-  const [authCode, setAuthCode] =
-    useState<SetStateAction<parsedQueryType>>(null);
-  const { search } = useLocation();
-  const { code } = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
+  const idRef = useRef<HTMLInputElement>(null);
+  const {
+    value: enteredID,
+    isValid: idIsValid,
+    valueChangeHandler: IDChangedHandler,
+    reset: resetID,
+  } = useInput((value) => value.length > 5);
+
+  const {
+    value: enteredPassword,
+    isValid: passWordIsValid,
+    valueChangeHandler: passWordChangedHandler,
+    reset: resetPassword,
+  } = useInput((value) => value.length > 5);
 
   useEffect(() => {
-    if (!code) return;
-    setAuthCode(code);
-  }, [code]);
+    idRef.current && idRef.current.focus();
+  }, []);
+  
+  const formIsValid = idIsValid && passWordIsValid;
 
-  const dispatch = useDispatch();
-  const idSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // 아이디로 로그인
-    // todo, form validator 만들기
-    dispatch(authActions.login());
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    () => {
+      console.log(form);
+    };
+    resetID();
+    resetPassword();
   };
 
   return (
-    <>
-      <section className={styles.section}>
-        <h1 className={styles.title}>Issue Tracker</h1>
-        <div className={styles.wrapper}>
-          <GithubLoginBtn />
-          <div className={styles.divider}>or</div>
-          <form className={styles.form} onSubmit={idSubmitHandler}>
-            <Input
-              label="email"
-              info={{
-                id: 'email',
-                type: 'email',
-                placeholder: '아이디',
-              }}
-            />
-            <Input
-              label="password"
-              info={{
-                id: 'password',
-                type: 'password',
-                placeholder: '비밀번호',
-              }}
-            />
-            <button type="submit" className={styles.login_button}>
-              아이디로 로그인
-            </button>
-          </form>
-        </div>
-        <button className={styles.signUp_button}>회원 가입</button>
-        <Suspense fallback={<div>IS LOADING...</div>}>
-          {/* todo: loading spinner, Error Boundary*/}
-          {authCode && <LoginCallBack code={code} />}
-        </Suspense>
-      </section>
-    </>
+    <section className={styles.section}>
+      <h1 className={styles.title}>Issue Tracker</h1>
+      <div className={styles.wrapper}>
+        <GithubLoginBtn />
+        <div className={styles.divider}>or</div>
+        <form
+          data-testid="form"
+          className={styles.form}
+          onSubmit={submitHandler}
+        >
+          <InputWithRef
+            ref={idRef}
+            label="id"
+            info={{
+              id: 'id',
+              name: 'idInput',
+              type: 'text',
+              placeholder: '아이디',
+              value: enteredID,
+              onChange: IDChangedHandler,
+              maxLength: 12,
+            }}
+          />
+          <Input
+            label="password"
+            info={{
+              id: 'password',
+              name: 'passwordInput',
+              type: 'password',
+              placeholder: '비밀번호',
+              value: enteredPassword,
+              onChange: passWordChangedHandler,
+              maxLength: 12,
+            }}
+          />
+          <button
+            type="submit"
+            className={styles.login_button}
+            disabled={formIsValid ? false : true}
+          >
+            아이디로 로그인
+          </button>
+        </form>
+      </div>
+      <button className={styles.signUp_button}>회원 가입</button>
+    </section>
   );
 };
 

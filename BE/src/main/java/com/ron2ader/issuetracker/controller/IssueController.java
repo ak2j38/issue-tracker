@@ -39,7 +39,7 @@ public class IssueController {
     @GetMapping("/issues")
     public ResponseEntity<Page<IssueSimpleResponse>> showIssuesByOpenStatus(Pageable pageable, Boolean openStatus) {
 
-        Page<IssueSimpleResponse> issues = issueService.findAllByOpenStatus(pageable, openStatus);
+        Page<IssueSimpleResponse> issues = issueService.findByCondition(pageable, openStatus);
 
         return ResponseEntity.ok(issues);
     }
