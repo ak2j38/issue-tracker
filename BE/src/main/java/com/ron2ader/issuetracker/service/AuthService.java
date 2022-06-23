@@ -9,6 +9,7 @@ import com.ron2ader.issuetracker.controller.memberdto.MemberDto;
 import com.ron2ader.issuetracker.domain.member.Member;
 import com.ron2ader.issuetracker.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -26,15 +28,16 @@ public class AuthService {
     private final MemberRepository memberRepository;
 
     public GithubToken requestAccessToken(String code) {
+        log.info("url={}",githubProperties.getAccessTokenUrl());
         return webClient.post()
-            .uri(githubProperties.getAccessTokenUrl())
-            .bodyValue(
-                GithubTokenRequest.of(githubProperties.getClientId(), githubProperties.getClientSecret(), code)
-            )
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .bodyToMono(GithubToken.class)
-            .block();
+                .uri(githubProperties.getAccessTokenUrl())
+                .bodyValue(
+                        GithubTokenRequest.of(githubProperties.getClientId(), githubProperties.getClientSecret(), code)
+                )
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(GithubToken.class)
+                .block();
     }
 
     public GithubUserInfo requestUserInfo(GithubToken githubToken) {
