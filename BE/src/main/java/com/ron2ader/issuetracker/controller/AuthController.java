@@ -28,6 +28,7 @@ public class AuthController {
 
     @GetMapping("/auth/github")
     public Tokens requestAccessToken(String code) {
+        log.info("controller code={}", code);
         GithubToken githubToken = Optional.ofNullable(githubOAuthService.requestAccessToken(code))
                 .orElseThrow(() -> new IllegalArgumentException("code가 잘못되었습니다."));
         log.info("githubtoken={}, {}, {}", githubToken, githubToken.getAccessToken(), githubToken.getTokenType());
