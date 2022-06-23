@@ -2,12 +2,14 @@ package com.ron2ader.issuetracker.auth.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtProvider {
 
     private final JwtProperties jwtProperties;
@@ -24,6 +26,12 @@ public class JwtProvider {
     }
 
     public String generateAccessToken(String userId) {
+        log.info("accessSubject={}",jwtProperties.getAccessSubject());
+        log.info("refreshSubject={}",jwtProperties.getRefreshSubject());
+        log.info("issuer={}",jwtProperties.getIssuer());
+        log.info("access expire={}",jwtProperties.getAccessExpirationTime());
+        log.info("refresh expire={}",jwtProperties.getRefreshExpirationTime());
+
         return generateToken(userId, jwtProperties.getAccessSubject(), jwtProperties.getAccessExpirationTime());
     }
 
