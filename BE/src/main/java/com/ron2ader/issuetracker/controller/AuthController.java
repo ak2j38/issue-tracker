@@ -10,11 +10,16 @@ import com.ron2ader.issuetracker.domain.member.Member;
 import com.ron2ader.issuetracker.service.AuthService;
 import com.ron2ader.issuetracker.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService githubOAuthService;
@@ -23,8 +28,16 @@ public class AuthController {
 
     @GetMapping("/auth/github")
     public Tokens requestAccessToken(String code) {
-        GithubToken githubToken = githubOAuthService.requestAccessToken(code);
-        GithubUserInfo githubUserInfo = githubOAuthService.requestUserInfo(githubToken);
+        GithubToken githubToken = Optional.ofNullable(githubOAuthService.requestAccessToken(code))
+                .orElseThrow(() -> new IllegalArgumentException("code가 잘못되었습니다."));
+        log.info("githubtoken={}, {}, {}", githubToken, githubToken.getAccessToken(), githubToken.getTokenType());
+        GithubUserInfo githubUserInfo;
+        try {
+            githubUserInfo = githubOAuthService.requestUserInfo(githubToken);
+        } catch (WebClientResponseException webClientResponseException) {
+            throw new IllegalArgumentException("code가 잘못되었습니다.");
+        }
+
 
         Member member = memberService.upsert(Member.of(githubUserInfo.getUserId(), githubUserInfo.getAvatarUrl()));
 
