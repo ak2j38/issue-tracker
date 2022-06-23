@@ -31,6 +31,8 @@ public class AuthService {
         if (code == null) {
             throw new IllegalArgumentException("요청 코드가 올바르지 않습니다.");
         }
+        log.info("accesstokenurl={}", githubProperties.getAccessTokenUrl());
+        log.info("code={}", code);
         return webClient.post()
                 .uri(githubProperties.getAccessTokenUrl())
                 .bodyValue(
@@ -47,6 +49,7 @@ public class AuthService {
             throw new IllegalArgumentException("github userInfo에 접근할 수 없습니다.");
         }
 
+        log.info("githubToken={}", githubToken.toHeader());
         try {
             return webClient.get()
                     .uri("/user")
