@@ -18,10 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public WebClient webClient() {
-        HttpClient client = HttpClient.create()
-                .responseTimeout(Duration.ofSeconds(1));
         return WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(client))
                 .baseUrl("https://api.github.com")
                 .build();
     }

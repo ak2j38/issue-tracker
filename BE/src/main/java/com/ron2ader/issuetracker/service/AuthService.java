@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import java.util.NoSuchElementException;
 
@@ -27,7 +28,9 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     public GithubToken requestAccessToken(String code) {
-        log.info("url={}",githubProperties.getAccessTokenUrl());
+        if (code == null) {
+            throw new IllegalArgumentException("요청 코드가 올바르지 않습니다.");
+        }
         return webClient.post()
                 .uri(githubProperties.getAccessTokenUrl())
                 .bodyValue(
@@ -40,13 +43,22 @@ public class AuthService {
     }
 
     public GithubUserInfo requestUserInfo(GithubToken githubToken) {
-        return webClient.get()
-            .uri("/user")
-            .header(HttpHeaders.AUTHORIZATION, githubToken.toHeader())
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .bodyToMono(GithubUserInfo.class)
-            .block();
+        if (githubToken.getTokenType() == null || githubToken.getAccessToken() == null) {
+            throw new IllegalArgumentException("github userInfo에 접근할 수 없습니다.");
+        }
+
+        try {
+            return webClient.get()
+                    .uri("/user")
+                    .header(HttpHeaders.AUTHORIZATION, githubToken.toHeader())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(GithubUserInfo.class)
+                    .block();
+        } catch (WebClientException webClientException) {
+            throw new IllegalArgumentException("token이 올바르지 않습니다.");
+        }
+
     }
 
     public String extractUserIdByToken(String token) {
