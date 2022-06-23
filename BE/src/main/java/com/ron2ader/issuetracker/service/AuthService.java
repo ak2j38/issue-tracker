@@ -33,6 +33,8 @@ public class AuthService {
             throw new IllegalArgumentException("요청 코드가 올바르지 않습니다.");
         }
         log.info("accesstokenurl={}", githubProperties.getAccessTokenUrl());
+        log.info("clientid={}", githubProperties.getClientId());
+        log.info("clientsecret={}", githubProperties.getClientSecret());
         log.info("code={}", code);
         return webClient.post()
                 .uri(githubProperties.getAccessTokenUrl())
