@@ -28,7 +28,7 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     @GetMapping("/auth/github")
-    public Tokens requestAccessToken(String code) {
+    public LoginResponse requestAccessToken(String code) {
         log.info("controller code={}", code);
         GithubToken githubToken = Optional.ofNullable(githubOAuthService.requestAccessToken(code))
                 .orElseThrow(() -> new IllegalArgumentException("code가 잘못되었습니다."));
@@ -39,7 +39,6 @@ public class AuthController {
         } catch (WebClientResponseException webClientResponseException) {
             throw new IllegalArgumentException("code가 잘못되었습니다.");
         }
-
 
         Member member = memberService.upsert(Member.of(githubUserInfo.getUserId(), githubUserInfo.getAvatarUrl()));
 
