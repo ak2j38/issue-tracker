@@ -3,6 +3,8 @@ package com.ron2ader.issuetracker.domain.reply;
 import com.ron2ader.issuetracker.domain.common.BaseEntity;
 import com.ron2ader.issuetracker.domain.issue.Issue;
 import com.ron2ader.issuetracker.domain.member.Member;
+import lombok.Getter;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
+@Getter
 public class Reply extends BaseEntity {
 
     @Id
@@ -27,4 +30,8 @@ public class Reply extends BaseEntity {
     private Issue issue;
 
     private String contents;
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
 }

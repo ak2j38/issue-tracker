@@ -23,7 +23,7 @@ public class MemberService {
 
     public Member upsert(Member member) {
         Member findMember = memberRepository.findByMemberId(member.getMemberId())
-            .map(m -> m.updateNonNull(member))
+            .map(m -> m.update(member))
             .orElse(member);
 
         return memberRepository.save(findMember);

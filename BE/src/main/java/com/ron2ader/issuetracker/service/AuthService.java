@@ -26,7 +26,6 @@ public class AuthService {
     private final WebClient webClient;
     private final GithubProperties githubProperties;
     private final JwtProvider jwtProvider;
-    private final MemberRepository memberRepository;
 
     public GithubToken requestAccessToken(String code) {
         if (code == null) {
@@ -67,14 +66,12 @@ public class AuthService {
 
     }
 
-    public MemberDto findUserByToken(String token) {
+    public String extractUserIdByToken(String token) {
         if (!jwtProvider.validateToken(token)) {
             throw new RuntimeException(); // 예외처리 필요
         }
-        String memberId = jwtProvider.getPayload(token);
-        Member member = memberRepository.findByMemberId(memberId).orElseThrow(NoSuchElementException::new);
 
-        return new MemberDto(member.getMemberId(), member.getAvatarUrl());
+        return jwtProvider.getPayload(token);
     }
 
 }

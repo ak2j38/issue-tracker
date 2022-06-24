@@ -1,15 +1,12 @@
 github:
-  client:
-    id: ${GITHUB_CLIENT_ID}
-    secret: ${GITHUB_CLIENT_SECRET}
+  client-id: ${GITHUB_CLIENT_ID}
+  client-secret: ${GITHUB_CLIENT_SECRET}
   access-token-url: ${GITHUB_ACCESS_TOKEN_URL}
 
 jwt:
   issuer: ${JWT_ISSUER}
-  access:
-    subject: ${JWT_SUBJECT_ACCESS}
-    expiration-time: ${ACCESS_EXPIRATION_TIME}
-  refresh:
-    subject:  ${JWT_SUBJECT_REFRESH}
-    expiration-time: ${REFRESH_EXPIRATION_TIME}
+  access-subject: ${JWT_SUBJECT_ACCESS}
+  access-expiration-time: ${ACCESS_EXPIRATION_TIME}
+  refresh-subject: ${JWT_SUBJECT_REFRESH}
+  refresh-expiration-time: ${REFRESH_EXPIRATION_TIME}
 

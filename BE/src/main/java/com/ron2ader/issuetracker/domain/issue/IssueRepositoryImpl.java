@@ -9,7 +9,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ron2ader.issuetracker.controller.issuedto.IssueCondition;
-import com.ron2ader.issuetracker.domain.member.QMember;
+import com.ron2ader.issuetracker.domain.member.Member;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +44,9 @@ public class IssueRepositoryImpl implements IssueCustomRepository {
             .leftJoin(issue.replies, reply)
             .where(
                 openStatusEq(issueCondition.getOpenStatus()),
-                issuerEq(issue.issuer, issueCondition.getIsWriteByMe()),
-                issueAssigneeEq(issue.issuer, issueCondition.getIsAssignedToMe()),
-                replyMemberEq(issue.issuer, issueCondition.getIsCommentByMe())
+                issuerEq(issueCondition.getIssuer()),
+                issueAssigneeEq(issueCondition.getAssignee()),
+                replyMemberEq(issueCondition.getIssuer())
             )
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -59,9 +59,9 @@ public class IssueRepositoryImpl implements IssueCustomRepository {
             .leftJoin(issue.replies, reply)
             .where(
                 openStatusEq(issueCondition.getOpenStatus()),
-                issuerEq(issue.issuer, issueCondition.getIsWriteByMe()),
-                issueAssigneeEq(issue.issuer, issueCondition.getIsAssignedToMe()),
-                replyMemberEq(issue.issuer, issueCondition.getIsCommentByMe())
+                issuerEq(issueCondition.getIssuer()),
+                issueAssigneeEq(issueCondition.getAssignee()),
+                replyMemberEq(issueCondition.getIssuer())
             );
 
         return PageableExecutionUtils.getPage(issues, pageable, () -> countQuery.fetch().size());
@@ -75,27 +75,27 @@ public class IssueRepositoryImpl implements IssueCustomRepository {
         return issue.openStatus.eq(openStatus);
     }
 
-    private BooleanExpression issuerEq(QMember issuer, Boolean isWriteByMe) {
-        if (isWriteByMe == null) {
+    private BooleanExpression issuerEq(Member issueConditionIssuer) {
+        if (issueConditionIssuer == null) {
             return null;
         }
 
-        return issue.issuer.eq(issuer);
+        return issue.issuer.eq(issueConditionIssuer);
     }
 
-    private BooleanExpression issueAssigneeEq(QMember issuer, Boolean isAssignedToMe) {
-        if (isAssignedToMe == null) {
+    private BooleanExpression issueAssigneeEq(Member assignee) {
+        if (assignee == null) {
             return null;
         }
 
-        return issueAssignee.assignee.eq(issuer);
+        return issueAssignee.assignee.eq(assignee);
     }
 
-    private BooleanExpression replyMemberEq(QMember issuer, Boolean isCommentByMe) {
-        if (isCommentByMe == null) {
+    private BooleanExpression replyMemberEq(Member issueConditionIssuer) {
+        if (issueConditionIssuer == null) {
             return null;
         }
 
-        return reply.member.eq(issuer);
+        return reply.member.eq(issueConditionIssuer);
     }
 }

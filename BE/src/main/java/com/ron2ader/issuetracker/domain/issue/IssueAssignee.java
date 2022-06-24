@@ -31,4 +31,8 @@ public class IssueAssignee {
     @JoinColumn(name = "assignee_id")
     private Member assignee;
 
+    public static IssueAssignee of(Issue issue, Member assignee) {
+        return new IssueAssignee(null, issue, assignee);
+    }
+
 }
