@@ -2,7 +2,7 @@ spring:
   config:
     activate:
       on-profile: prod
-    additional-location: classpath:auth.yml
+    import: auth.yml
 
   mvc:
     pathmatch:

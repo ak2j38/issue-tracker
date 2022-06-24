@@ -1,5 +1,9 @@
 package com.ron2ader.issuetracker.controller.issuedto;
 
+import com.ron2ader.issuetracker.domain.label.Label;
+import com.ron2ader.issuetracker.domain.member.Member;
+import com.ron2ader.issuetracker.domain.milestone.Milestone;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,8 +12,12 @@ import lombok.Getter;
 public class IssueCondition {
 
     private Boolean openStatus;
-    private Boolean isWriteByMe;
-    private Boolean isAssignedToMe;
-    private Boolean isCommentByMe;
+    private Member assignee;
+    private List<Label> labels;
+    private Milestone milestone;
+    private Member issuer;
 
+    public static IssueCondition ofForFindOpenStatus(Boolean openStatus) {
+        return new IssueCondition(openStatus, null, null, null, null);
+    }
 }

@@ -24,20 +24,10 @@ public class Member extends BaseEntity {
         return new Member(null, memberId, avatarUrl);
     }
 
-    public Member updateNonNull(Member member) {
-        if (isUpdatable(member)) {
-            this.memberId = member.getMemberId();
-            this.avatarUrl = member.getAvatarUrl();
-        }
-
+    public Member update(Member member) {
+        this.memberId = member.getMemberId();
+        this.avatarUrl = member.getAvatarUrl();
         return this;
-    }
-
-    private boolean isUpdatable(Member member) {
-        if (member == null) {
-            return false;
-        }
-        return !this.memberId.equals(member.getMemberId()) || !this.avatarUrl.equals(member.getAvatarUrl());
     }
 
     @Override
