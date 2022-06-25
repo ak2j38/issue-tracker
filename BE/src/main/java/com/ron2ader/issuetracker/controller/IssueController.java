@@ -5,12 +5,10 @@ import com.ron2ader.issuetracker.controller.issuedto.IssueCreateRequest;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetailResponse;
 import com.ron2ader.issuetracker.controller.issuedto.IssueSimpleResponse;
 import com.ron2ader.issuetracker.controller.issuedto.IssuesResponse;
-import com.ron2ader.issuetracker.controller.memberdto.MemberDto;
 import com.ron2ader.issuetracker.service.IssueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +43,7 @@ public class IssueController {
 
     @GetMapping("/issues")
     public IssuesResponse showIssuesByOpenStatus(Pageable pageable, Boolean openStatus) {
+
         Page<IssueSimpleResponse> issues = issueService.findByOpenStatus(pageable, openStatus);
         Long countByStatus = issueService.countByStatus(!openStatus);
 

@@ -3,9 +3,11 @@ package com.ron2ader.issuetracker.controller.memberdto;
 import com.ron2ader.issuetracker.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
+@ToString
 public class MemberDto {
 
     private String memberId;

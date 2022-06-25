@@ -1,58 +1,58 @@
 package com.ron2ader.issuetracker.service;
 
-import com.ron2ader.issuetracker.controller.issuedto.IssueCreateRequest;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetailResponse;
-import com.ron2ader.issuetracker.controller.issuedto.IssueSimpleResponse;
 import com.ron2ader.issuetracker.domain.member.MemberRepository;
+import com.ron2ader.issuetracker.domain.milestone.MilestoneRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.jdbc.Sql;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("local")
-@Transactional
+@Sql("classpath:sql/data.sql")
 class IssueServiceTest {
 
-    @Autowired
-    private IssueService issueService;
+    private final IssueService issueService;
+    private final MemberRepository memberRepository;
+    private final MilestoneRepository milestoneRepository;
+
 
     @Autowired
-    private MemberRepository memberRepository;
+    public IssueServiceTest(IssueService issueService,
+                            MemberRepository memberRepository,
+                            MilestoneRepository milestoneRepository) {
+        this.issueService = issueService;
+        this.memberRepository = memberRepository;
+        this.milestoneRepository = milestoneRepository;
+    }
 
-    private List<IssueCreateRequest> issues;
-    private IssueCreateRequest issueCreateRequest;
+    @BeforeEach
+    void setUp() {
 
-    /*
-    * 엔티티 수정과 로직 수정으로 인해서 테스트코드 다시 작성 예정
-    * */
-//    @BeforeEach
-//    void setUp() {
-//        issueCreateRequest = new IssueCreateRequest("title", "contents", null);
-//
-//        issues = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//             issues.add(new IssueCreateRequest("title" + i, "contents" + i, null));
-//        }
-//    }
-//
-//    @Test
-//    void registerIssueTest() {
-//        IssueDetailResponse issueDetailResponse = issueService.registerIssue(issueCreateRequest.getTitle(), issueCreateRequest.getContents(), "ron2");
-//
-//        assertThat(issueDetailResponse.getMemberDto().getMemberId()).isEqualTo("ron2");
-//        assertThat(issueDetailResponse.getMemberDto().getAvatarUrl()).isEqualTo("asdfasdf.com");
-//        assertThat(issueDetailResponse.getIssueDetail().getTitle()).isEqualTo("title");
-//    }
+    }
+
+    @Test
+    @DisplayName("issue를 등록하면 등록된 이슈의 아이디를 반환한다.")
+    void registerIssueTest() {
+        Long createdIssueId = issueService.registerIssue("ron2",
+                "first issue",
+                "issue contents",
+                List.of(1L, 2L),
+                List.of(1L, 2L),
+                1L);
+
+        IssueDetailResponse issueDetailResponse = issueService.findById(createdIssueId);
+        System.out.println(issueDetailResponse.toString());
+
+
+    }
+
 //
 //    @Test
 //    void findByIdTest() {

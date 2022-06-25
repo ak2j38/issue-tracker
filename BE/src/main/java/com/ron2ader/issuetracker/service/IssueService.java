@@ -1,11 +1,12 @@
 package com.ron2ader.issuetracker.service;
 
-import com.ron2ader.issuetracker.auth.Login;
 import com.ron2ader.issuetracker.controller.issuedto.IssueCondition;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetail;
 import com.ron2ader.issuetracker.controller.issuedto.IssueDetailResponse;
 import com.ron2ader.issuetracker.controller.issuedto.IssueSimpleResponse;
+import com.ron2ader.issuetracker.controller.labeldto.LabelResponse;
 import com.ron2ader.issuetracker.controller.memberdto.MemberDto;
+import com.ron2ader.issuetracker.controller.milestonedto.MilestoneResponse;
 import com.ron2ader.issuetracker.domain.issue.*;
 import com.ron2ader.issuetracker.domain.label.Label;
 import com.ron2ader.issuetracker.domain.label.LabelRepository;
@@ -70,10 +71,24 @@ public class IssueService {
     // 상세 정보
     @Transactional(readOnly = true)
     public IssueDetailResponse findById(Long issueNumber) {
-        Issue targetIssue = issueRepository.findById(issueNumber)
+        Issue issue = issueRepository.findById(issueNumber)
                 .orElseThrow(() -> new NoSuchElementException("해당하는 이슈가 없습니다."));
 
-        return new IssueDetailResponse(MemberDto.from(targetIssue.getIssuer()), IssueDetail.from(targetIssue));
+        List<MemberDto> assignees = issue.getAssignees().stream()
+                .map(issueAssignee -> MemberDto.from(issueAssignee.getAssignee()))
+                .collect(Collectors.toList());
+
+        List<LabelResponse> labels = issue.getLabels()
+                .stream()
+                .map(issueLabel -> LabelResponse.from(issueLabel.getLabel()))
+                .collect(Collectors.toList());
+
+        return new IssueDetailResponse(MemberDto.from(issue.getIssuer()),
+                IssueDetail.from(issue),
+                assignees,
+                labels,
+                MilestoneResponse.from(issue.getMilestone())
+        );
     }
 
     @Transactional(readOnly = true)

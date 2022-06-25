@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Milestone {
 
@@ -31,16 +31,24 @@ public class Milestone {
         return new Milestone(null, title, description, endDate, null);
     }
 
-    public Long issueCountByOpenStatus(Boolean openStatus) {
-        return issues.stream()
-            .filter(issue -> issue.getOpenStatus() == openStatus)
-            .count();
+    public Long countOpenIssue() {
+        return issueCountByOpenStatus(true);
+    }
+
+    public Long countClosedIssue() {
+        return issueCountByOpenStatus(false);
     }
 
     public void update(String title, String description, LocalDate endDate) {
         this.title = title;
         this.description = description;
         this.endDate = endDate;
+    }
+
+    private Long issueCountByOpenStatus(Boolean openStatus) {
+        return issues.stream()
+                .filter(issue -> issue.getOpenStatus() == openStatus)
+                .count();
     }
 
 }

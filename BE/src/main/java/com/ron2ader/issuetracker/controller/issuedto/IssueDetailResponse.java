@@ -1,20 +1,28 @@
 package com.ron2ader.issuetracker.controller.issuedto;
 
+import com.ron2ader.issuetracker.controller.labeldto.LabelResponse;
 import com.ron2ader.issuetracker.controller.memberdto.MemberDto;
+
+import java.util.List;
 import java.util.Objects;
+
+import com.ron2ader.issuetracker.controller.milestonedto.MilestoneResponse;
+import com.ron2ader.issuetracker.domain.issue.IssueAssignee;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@ToString
+@RequiredArgsConstructor
 public class IssueDetailResponse {
 
-    private MemberDto memberDto;
-    private IssueDetail issueDetail;
+    private final MemberDto issuer;
+    private final IssueDetail issueDetail;
+    private final List<MemberDto> assignees;
+    private final List<LabelResponse> labelResponse;
+    private final MilestoneResponse milestoneResponse;
 
-    public IssueDetailResponse(MemberDto memberDto,
-        IssueDetail issueDetail) {
-        this.memberDto = memberDto;
-        this.issueDetail = issueDetail;
-    }
 
     @Override
     public boolean equals(Object o) {

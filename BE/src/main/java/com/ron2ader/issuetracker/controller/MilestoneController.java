@@ -3,17 +3,11 @@ package com.ron2ader.issuetracker.controller;
 import com.ron2ader.issuetracker.controller.milestonedto.MilestoneRequest;
 import com.ron2ader.issuetracker.controller.milestonedto.MilestoneResponse;
 import com.ron2ader.issuetracker.service.MilestoneService;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,19 +21,23 @@ public class MilestoneController {
     }
 
     @PostMapping("/milestones")
-    public MilestoneResponse register(String title, String description, LocalDate endDate) {
-        return milestoneService.save(title, description, endDate);
+    public MilestoneResponse register(MilestoneRequest milestoneRequest) {
+        return milestoneService.save(milestoneRequest.getTitle(),
+                milestoneRequest.getDescription(),
+                milestoneRequest.getEndDate());
     }
 
     @PostMapping("/milestones/{id}")
-    public MilestoneResponse update(@PathVariable Long id, String title, String description, LocalDate endDate) {
-        return milestoneService.update(id, title, description, endDate);
+    public MilestoneResponse update(@PathVariable Long id, MilestoneRequest milestoneRequest) {
+        return milestoneService.update(id, milestoneRequest.getTitle(),
+                milestoneRequest.getDescription(),
+                milestoneRequest.getEndDate());
     }
 
     @DeleteMapping("/milestones/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         milestoneService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 
 }
