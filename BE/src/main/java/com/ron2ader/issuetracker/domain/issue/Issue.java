@@ -47,12 +47,11 @@ public class Issue extends BaseEntity {
     @OneToMany(mappedBy = "issue", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
 
-    private Issue(Member issuer, String title, String contents, Milestone milestone) {
+    private Issue(Member issuer, String title, String contents) {
         this.issuer = issuer;
         this.title = title;
         this.contents = contents;
         this.openStatus = true;
-        this.milestone = milestone;
     }
 
     public static Issue of(Member member, String title, String contents, List<IssueAssignee> assignees,
@@ -61,7 +60,7 @@ public class Issue extends BaseEntity {
     }
 
     public static Issue createIssue(Member issuer, String title, String contents)  {
-        return new Issue(issuer, title, contents, null);
+        return new Issue(issuer, title, contents);
     }
 
     public void addReply(Reply reply) {

@@ -23,7 +23,7 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     @GetMapping("/auth/github")
-    public LoginResponse requestAccessToken(String code) {
+    public LoginResponse LoginWithGithub(String code) {
         GithubToken githubToken = githubOAuthService.requestAccessToken(code);
         GithubUserInfo githubUserInfo = githubOAuthService.requestUserInfo(githubToken);
 
