@@ -25,7 +25,6 @@ jobs:
         dockerfile: ./Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      working-directory: ./FE
 
     - name: deploy-be 
       uses: appleboy/ssh-action@master
