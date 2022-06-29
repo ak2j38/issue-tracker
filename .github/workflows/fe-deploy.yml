@@ -1,0 +1,38 @@
+name: nginx with reactapp deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build and Push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v5.6
+      with:
+        image: ${{ secrets.DOCKERHUB_USERNAME }}/issue-web
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: ./FE/Dockerfile
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: deploy-be 
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ubuntu
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+          docker rmi issue-web:latest
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/issue-web:latest
+          docker stop issue-web
+          docker run -d --rm --name issue-web -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/issue-web:latest 

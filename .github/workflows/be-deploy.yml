@@ -46,7 +46,7 @@ jobs:
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v5.6
       with:
-        image: cmsskkk/issue-android
+        image: ${{ secrets.DOCKERHUB_USERNAME }}/issue-tracker
         tags: v1, latest
         registry: docker.io
         dockerfile: ./BE/Dockerfile
@@ -60,5 +60,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.PRIVATE_KEY }}
         script: |
-          docker pull cmsskkk/issue-android:latest
-          docker run -d --rm --name tracker -p 8080:8080 cmsskkk/issue-android:latest 
+          docker rmi issue-tracker:latest
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/issue-tracker:latest
+          docker stop tracker
+          docker run -d --rm --name tracker -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/issue-tracker:latest 
