@@ -5,7 +5,8 @@ WORKDIR /code
 COPY ./FE/package.json package.json
 COPY ./FE/package-lock.json package-lock.json
 
-RUN npm install -D webpack-cli
+RUN npm install --save-dev webpack
+RUN npm install --save-dev webpack-cli
 
 RUN npm ci --production
 
