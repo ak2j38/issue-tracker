@@ -1,4 +1,4 @@
-name: nginx with reactapp deploy
+name: Docker Image CI
 
 on:
   workflow_dispatch:
