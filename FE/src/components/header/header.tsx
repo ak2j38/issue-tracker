@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './header.module.scss';
 
-export const Header = (): JSX.Element => {
+const Header = (): JSX.Element => {
   return (
     <header>
       <div className={styles.box}>
@@ -13,3 +13,5 @@ export const Header = (): JSX.Element => {
     </header>
   );
 };
+
+export default Header;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AddIssueForm } from '@components/addIssue';
+import AddIssueForm from '../../components/addIssue/addIssueForm';
 import styles from './addIssue.module.scss';
-import { Header } from '@components/header';
+import Header from '../../components/header/header';
 export const AddIssue = (): JSX.Element => {
   return (
     <>

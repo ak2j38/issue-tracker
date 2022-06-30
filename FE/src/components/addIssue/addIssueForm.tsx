@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './addIssueForm.module.scss';
 import { AddIssueInputs } from './addIssueInputs';
 
-export const AddIssueForm = (): JSX.Element => {
+const AddIssueForm = (): JSX.Element => {
   return (
     <form>
       <div className={styles.Box}>
@@ -24,3 +24,5 @@ export const AddIssueForm = (): JSX.Element => {
     </form>
   );
 };
+
+export default AddIssueForm;

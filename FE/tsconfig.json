@@ -17,12 +17,6 @@
     "isolatedModules": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
-    "paths": {
-      "@UI/*": ["src/common/*"],
-      "@components/*": ["src/components/*"],
-      "@styles/*": ["src/styles/*"],
-      "@pages/*": ["src/pages/*"]
-    },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src"]

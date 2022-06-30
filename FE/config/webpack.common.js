@@ -23,11 +23,5 @@ module.exports = {
     modules: [path.resolve(__dirname, '../src'), 'node_modules'],
 
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    alias: {
-      '@UI': path.resolve(__dirname, '../src/UI'),
-      '@components': path.resolve(__dirname, '../src/components'),
-      '@styles': path.resolve(__dirname, '../src/styles'),
-      '@pages': path.resolve(__dirname, '../src/pages'),
-    },
   },
 };

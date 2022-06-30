@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
-import LoginLoading from '@components/loginCallback/LoginLoading';
-import LoginError from '@components/loginCallback/LoginError';
+import LoginLoading from '../../components/loginCallback/LoginLoading';
+import LoginError from '../../components/loginCallback/LoginError';
 import { useAuthQuery } from '../../hooks/useAuthQuery';
 import { useCookies } from 'react-cookie';
 const Callback = () => {
