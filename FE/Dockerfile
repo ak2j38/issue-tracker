@@ -3,8 +3,9 @@ FROM node:14-buster as build
 WORKDIR /code
 
 COPY /FE/package.json package.json
-COPY /FE/package-lock.json package-lock.json
 
+RUN npm cache clean --force
+RUN rm -rf node_modules package-lock.json
 RUN npm install
 
 COPY /FE .
