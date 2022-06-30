@@ -10,7 +10,7 @@ RUN npm install --save-dev webpack-cli
 
 RUN npm ci --production
 
-COPY . .
+COPY ./FE .
 
 RUN npm run build:prod
 
