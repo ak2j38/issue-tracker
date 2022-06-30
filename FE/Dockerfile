@@ -2,15 +2,11 @@ FROM node:14-buster as build
 
 WORKDIR /code
 
-COPY ./FE/package.json package.json
-COPY ./FE/package-lock.json package-lock.json
-
-RUN npm install --save-dev webpack
-RUN npm install --save-dev webpack-cli
+COPY /FE/package.json package.json
 
 RUN npm ci --production
 
-COPY ./FE .
+COPY /FE .
 
 RUN npm run build:prod
 
