@@ -61,25 +61,6 @@ const Issue = ({
     else setIsChecked(false);
   }, [checkedIssues]);
 
-  // {!isChecked && (
-  //   <div>
-  //     <span>열린 이슈</span>
-  //     <span>닫힌 이슈</span>
-  //   </div>
-  // )}
-  // <div
-  //   style={{
-  //     display: 'flex',
-  //     width: '30%',
-  //     justifyContent: 'space-around',
-  //   }}
-  // >
-  //   <span>담당자</span>
-  //   <span>담당자</span>
-  //   <span>담당자</span>
-  //   <span>담당자</span>
-  // </div>
-
   return (
     <div className={styles.issueWrapper}>
       <div className={styles.checkBoxWrapper}>

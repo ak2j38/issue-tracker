@@ -6,11 +6,37 @@
   width: 1280px;
   height: 40px;
   margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 30px;
 }
 
 .filterWrapper {
   width: 50%;
   height: 100%;
+  display: flex;
+  border: 1px solid #d9dbe9;
+  border-radius: 11px;
+  box-sizing: border-box;
+  .filter {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #d9dbe9;
+    box-sizing: border-box;
+    color: #6e7191;
+  }
+
+  .search {
+    width: 100%;
+    padding: 10px 30px;
+    border: none;
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+  }
 }
 
 .filterButtonsWrapper {
@@ -19,6 +45,23 @@
   height: 100%;
 }
 
+.buttons {
+  width: 60%;
+  height: 100%;
+  border: 1px solid #d9dbe9;
+  border-radius: 11px;
+  margin-right: 20px;
+  box-sizing: border-box;
+
+  :nth-child(1) {
+    border-right: 1px solid #d9dbe9;
+  }
+  button {
+    width: 50%;
+    height: 100%;
+    color: #6e7191;
+  }
+}
 .addIssueButton {
   @include smallButton();
 }

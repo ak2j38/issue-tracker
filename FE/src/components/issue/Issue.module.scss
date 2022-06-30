@@ -3,7 +3,7 @@
 
 .wrapper {
   width: 1280px;
-  border: 1px solid black;
+  border: 1px solid #d9dbe9;
   box-sizing: border-box;
   border-radius: 2rem;
 }
@@ -11,7 +11,7 @@
 .issueWrapper {
   width: 100%;
   @include wrapper(100px);
-  border-top: 1px solid black;
+  border-top: 1px solid #d9dbe9;
   box-sizing: border-box;
 }
 

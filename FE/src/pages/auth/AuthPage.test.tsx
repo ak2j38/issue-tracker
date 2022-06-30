@@ -6,12 +6,13 @@ import '@testing-library/jest-dom/extend-expect';
 
 // focus가 아이디 input으로 가있고,
 // 아래 로그인 버튼은 disabled
-
+// <div role="button">
 const renderAuthForm = () => {
   const result = render(<AuthPage />);
 
   const form = () => result.getByTestId('form');
   const Heading = () =>
+  // h1 g2
     result.getByRole('heading', {
       name: /issue tracker/i,
     });
@@ -82,6 +83,7 @@ describe('<AuthForm>', () => {
     const { IDInput, passwordInput, SubmitBtn } = renderAuthForm();
     userEvent.type(IDInput(), '7654321');
     userEvent.type(passwordInput(), '7654321');
+  
     expect(SubmitBtn()).toHaveAttribute('disabled', '');
     expect(SubmitBtn()).toHaveAttribute('disabled', '');
   });
@@ -100,12 +102,12 @@ describe('<AuthForm>', () => {
     expect(IDInput()).toHaveAttribute('maxLength', '12');
     expect(passwordInput()).toHaveAttribute('maxLength', '12');
   });
-  
+
   it('github 로그인 버튼은 깃허브 로그인 링크로 연결된다.', () => {
     const { GitHubLoginBtn } = renderAuthForm();
     expect(GitHubLoginBtn().closest('a')).toHaveAttribute(
       'href',
-      'https://github.com/login/oauth/authorize?client_id=565469f738966f8bc11a&redirect_uri=http://localhost:8081/callback',
+      'https://github.com/login/oauth/authorize?client_id=565469f738966f8bc11a&redirect_uri=http://localhost:3000/callback',
     );
   });
 
@@ -135,11 +137,15 @@ describe('<AuthForm>', () => {
   it('submit 이벤트가 실행되면 input의 값이 초기화된다', async () => {
     const { IDInput, passwordInput, form } = renderAuthForm();
 
-    userEvent.type(IDInput(), 'testID');
-    userEvent.type(passwordInput(), 'testPassword');
-    await fireEvent.submit(form());
+    // userEvent.type(IDInput(), 'testID');
+    // userEvent.type(passwordInput(), 'testPassword');
+    // await fireEvent.submit(form());
+    
+    // expect(IDInput().value).toBe('');
+    // expect(passwordInput().value).toBe('');
 
-    expect(IDInput().value).toBe('');
-    expect(passwordInput().value).toBe('');
+    userEvent.hover(IDInput())
+    // 
+
   });
 });

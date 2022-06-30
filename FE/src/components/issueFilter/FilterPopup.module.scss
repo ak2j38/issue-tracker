@@ -1,0 +1,39 @@
+.popupWrapper {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+  width: 230px;
+  height: 268px;
+  background-color: #fff;
+  z-index: 100;
+  color: #14142b;
+  border: 1px solid #d9dbe9;
+  box-sizing: border-box;
+  border-radius: 11px;
+  header {
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    box-sizing: border-box;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    background-color: #f7f7fc;
+    font-size: 18px;
+    padding-left: 10px;
+  }
+
+  .filterCondition {
+    border-top: 1px solid #d9dbe9;
+    box-sizing: border-box;
+    height: 44px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    justify-content: space-between;
+  }
+
+  input {
+    transform: translateY(-3px);
+  }
+}

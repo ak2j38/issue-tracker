@@ -19,7 +19,7 @@ export type fetchedContentType = {
 const fetchIssues = async (token: Readonly<string>) => {
   const response = await fetch(`http://localhost:3030/issues`, {
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   });
   if (!response.ok) {
@@ -34,9 +34,8 @@ const queryClient = new QueryClient();
 export const preFetchIssues = async (token: Readonly<string>) =>
   await queryClient.prefetchQuery('issues', () => fetchIssues(token));
 
-export const useIssueQuery = (token: Readonly<string>, enable?: boolean) =>
+export const useIssueQuery = (token: Readonly<string>) =>
   useQuery(['issues', token], () => fetchIssues(token), {
     refetchOnWindowFocus: false,
     retry: false,
-    enabled: enable,
   });
