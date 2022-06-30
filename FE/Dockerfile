@@ -15,10 +15,9 @@ RUN npm run build:prod
 FROM nginx:1.21.6-alpine as prod
 
 COPY --from=build /code/dist /usr/share/nginx/html
+COPY --from=build /code/config/nginx.conf /etc/nginx/conf.d
 
 RUN rm /etc/nginx/conf.d/default.conf
-
-COPY /code/config/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 80
 
