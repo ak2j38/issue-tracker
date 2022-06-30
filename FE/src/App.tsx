@@ -6,6 +6,7 @@ import { CookiesProvider } from 'react-cookie';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AddIssue } from './pages/addIssue';
 import IssueList from './pages/issueList/IssueList';
+import AuthPage from './pages/authpage/AuthPage';
 
 import store from './store/store';
 import Callback from './pages/callback/Callback';
