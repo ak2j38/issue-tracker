@@ -19,7 +19,8 @@ const App = () => {
         <CookiesProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<AuthPage />}>
+              <Route path="/">
+                <Route index element={<AuthPage />} />
                 <Route path="issues" element={<IssueList />} />
                 <Route path="addIssue" element={<AddIssue />} />
                 <Route path="callback" element={<Callback />} />
