@@ -6,7 +6,7 @@ import { CookiesProvider } from 'react-cookie';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AddIssue } from './pages/addIssue';
 import IssueList from './pages/issueList/IssueList';
-// import AuthPage from './pages/auth/AuthPage';
+import AuthPage from './pages/auth/AuthPage';
 import store from './store/store';
 import Callback from './pages/callback/Callback';
 const queryClient = new QueryClient();
@@ -19,8 +19,7 @@ const App = () => {
         <CookiesProvider>
           <Router>
             <Routes>
-              <Route path="/">
-                {/* <Route index element={<AuthPage />} /> */}
+              <Route path="/" element={<AuthPage />}>
                 <Route path="issues" element={<IssueList />} />
                 <Route path="addIssue" element={<AddIssue />} />
                 <Route path="callback" element={<Callback />} />
